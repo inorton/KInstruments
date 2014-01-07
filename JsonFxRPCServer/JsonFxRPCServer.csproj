@@ -40,9 +40,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\lib\jsonfx\src\JsonFx\JsonFx.csproj">
+    <ProjectReference Include="..\lib\jsonfx\src\JsonFx\JsonFx_net35.csproj">
       <Project>{3082284b-b579-4808-a4a4-d88dda4025cb}</Project>
-      <Name>JsonFx</Name>
+      <Name>JsonFx_net35</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

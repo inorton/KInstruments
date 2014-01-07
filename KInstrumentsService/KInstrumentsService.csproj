@@ -62,10 +62,6 @@
       <Project>{2240a47c-d07d-431c-a9d1-b4de6e4e9cba}</Project>
       <Name>JsonFxRPCServer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\lib\jsonfx\src\JsonFx\JsonFx.csproj">
-      <Project>{3082284b-b579-4808-a4a4-d88dda4025cb}</Project>
-      <Name>JsonFx</Name>
-    </ProjectReference>
     <ProjectReference Include="..\lib\xr-http-json\WebServer\WebServer.csproj">
       <Project>{20d55278-aea8-46b1-97f3-c2a6d0135ff5}</Project>
       <Name>WebServer</Name>
