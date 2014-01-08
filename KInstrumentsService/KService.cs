@@ -21,6 +21,8 @@ namespace KInstrumentsService
             }
         }
 
+        public IControlInput ControlInput { get; set; }
+
         public IInstrumentDataSource InstrumentDataSource { get; set; }
 
         InstrumentData idata;
@@ -281,11 +283,6 @@ namespace KInstrumentsService
                 }
                 return idata;
             }
-        }
-
-        public InstrumentCommand GetNextCommand()
-        {
-            throw new NotImplementedException();
         }
     }
 }

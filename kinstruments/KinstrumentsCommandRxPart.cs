@@ -8,9 +8,15 @@ using KInstrumentsService;
 
 namespace kinstruments
 {
-    public class Kinstruments : PartModule
+    public class KinstrumentsCommandRxPart : PartModule
     {
         static KinstrumentsWebserver httpd;
+
+        public override void OnFixedUpdate()
+        {
+            httpd.Service.ControlInput.CheckVessel(vessel);
+            base.OnFixedUpdate();
+        }
 
         public override void OnStart(PartModule.StartState state)
         {
@@ -24,28 +30,7 @@ namespace kinstruments
         public override void OnActive()
         {
             base.OnActive();
-            print("active..");
-        }
-
-        public override void OnInactive()
-        {
-            base.OnInactive();
-        }
-
-        public override void OnUpdate()
-        {
-            base.OnUpdate();
-            if (vessel.isActiveVessel)
-            {
-                try
-                {
-                    httpd.OnUpdate(vessel);
-                }
-                catch (Exception e)
-                {
-                    print(string.Format("{0}\n", e));
-                }
-            }
+            print("KinstrumentsCommandRxPart active..");
         }
     }
 }

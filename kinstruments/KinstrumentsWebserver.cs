@@ -58,17 +58,6 @@ namespace kinstruments
             Service.Log.Print("webserver started");
         }
 
-        public void OnUpdate(Vessel v)
-        {
-            if (!started) Start();
-            Service.OnUpdate(v);
-        }
-
-        public InstrumentCommand PopCommand()
-        {
-            return Service.GetNextCommand();
-        }
-
         public void Stop()
         {
             Service.Stop();

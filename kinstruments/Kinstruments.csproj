@@ -48,8 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConcreteControlInput.cs" />
-    <Compile Include="KInstrumentGeneric.cs" />
-    <Compile Include="Kinstruments.cs" />
+    <Compile Include="KinstrumentsCommandRxPart.cs" />
     <Compile Include="KInstrumentsStartup.cs" />
     <Compile Include="KinstrumentsWebserver.cs" />
     <Compile Include="PollingInstrumentDataSource.cs" />

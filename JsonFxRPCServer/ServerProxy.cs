@@ -6,6 +6,7 @@ using System.IO;
 using JsonFx.Json;
 using System.Reflection;
 using System.Runtime.Serialization;
+using JsonFx.Serialization.Resolvers;
 
 namespace JsonFxRPCServer
 {
@@ -17,7 +18,8 @@ namespace JsonFxRPCServer
     public class ServerProxy
     {
         Dictionary<string, Func<object[], object>> methodHandlers = new Dictionary<string, Func<object[], object>>();
-
+        Dictionary<string, MethodInfo> methodinfos = new Dictionary<string, MethodInfo>();
+        
         public void SetMethodHandler(string name, Func<object[], object> m)
         {
             methodHandlers[name] = m;
@@ -36,9 +38,9 @@ namespace JsonFxRPCServer
                     {
                         SetMethodHandler(m.Name, 
                             (x) => { return m.Invoke(service, x); });
-                    }
+                        methodinfos[m.Name] = m;
+                    }    
                 }
-
             }
         }
 
@@ -58,12 +60,29 @@ namespace JsonFxRPCServer
             {
                 try
                 {
+                    MethodInfo mi;
+                    if (methodinfos.TryGetValue(m.Name, out mi))
+                    {
+                        var pars = mi.GetParameters();
+                        if (pars.Length == m.Args.Length)
+                        {
+                            for (int i = 0; i < pars.Length; i++)
+                            {
+                                m.Args[i] = m.ConvertArg(pars[i].ParameterType, m.Args[i]);
+                            }
+                        }
+                        else
+                        {
+                            throw new ArgumentOutOfRangeException("incorrect number of arguments");
+                        }
+                    }
+
                     rv.result = act.Invoke(m.Args);
                 }
                 catch (Exception e)
                 {
                     var err = new Dictionary<string, object> {
-                        { "message" , "method threw exception" },
+                        { "message" , string.Format("method {0} threw exception", m.Name) },
                         { "exception" , e.ToString() },
                     };
                     rv.error = err;
@@ -122,7 +141,11 @@ namespace JsonFxRPCServer
                 }
                 if (o.ContainsKey("params"))
                 {
-                    rv.Args = o["params"] as object[];
+                    if ( o["params"] is Array ) {
+                        var arr = o["params"] as Array;
+                        rv.Args = new object[arr.Length];
+                        Array.Copy(arr, rv.Args, rv.Args.Length);                        
+                    }
                 }
             }
             return rv;
@@ -140,14 +163,18 @@ namespace JsonFxRPCServer
             Args = new object[0];
         }
 
-        public T ConvertArgs<T>()
+        public T ConvertArg<T>( object o)
+        {
+            return (T) ConvertArg(typeof(T), o);
+        }
+
+        public object ConvertArg(Type t, object o)
         {
             var js = new JsonWriter();
-            var str = js.Write(Args);
+            var str = js.Write(o);
             var jr = new JsonReader();
-            return jr.Read<T>(str);
+            return jr.Read(str, t);
         }
-        
     }
 
     [DataContract]

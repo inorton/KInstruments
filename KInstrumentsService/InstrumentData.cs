@@ -32,7 +32,7 @@ namespace KInstrumentsService
         [DataMember]
         public double OrbitalVelocity { get; set; }
         [DataMember]
-        public double Throttle { get; set; }
+        public float Throttle { get; set; }
         [DataMember]
         public int CurrentStage { get; set; }
 
@@ -63,6 +63,7 @@ namespace KInstrumentsService
             SurfaceVelocity = vessel.rb_velocity.magnitude;
 
             GearDown = FlightInputHandler.state.gearDown;
+            Throttle = FlightInputHandler.state.mainThrottle;
         }
     }
 }

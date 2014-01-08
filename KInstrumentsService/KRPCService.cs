@@ -15,14 +15,36 @@ namespace KInstrumentsService
             return Service.GetData();
         }
 
-        public void Throttle(ThrottleCommand cmd)
+        public void SetThrottle(SettableCommand values)
         {
-            throw new NotImplementedException();
+            if (Service.ControlInput != null)
+            {
+                Service.ControlInput.Throttle = values.Set;
+            }
         }
 
         public void ToggleGear()
         {
-            throw new NotImplementedException();
+            if (Service.ControlInput != null)
+            {
+                Service.ControlInput.ToggleGear();
+            }
+        }
+
+        public void ToggleStage()
+        {
+            if (Service.ControlInput != null)
+            {
+                Service.ControlInput.ToggleStage();
+            }
+        }
+
+        public void SetTrim(SettableCommand values)
+        {
+            if (Service.ControlInput != null)
+            {
+                Service.ControlInput.TrimPitch = values.Set;
+            }
         }
     }
 }

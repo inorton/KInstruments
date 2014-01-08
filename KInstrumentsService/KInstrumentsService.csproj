@@ -50,11 +50,11 @@
     <Compile Include="IInstrumentDataSource.cs" />
     <Compile Include="IKRPCService.cs" />
     <Compile Include="ILogger.cs" />
-    <Compile Include="InstrumentCommand.cs" />
     <Compile Include="InstrumentData.cs" />
     <Compile Include="KIWebContext.cs" />
     <Compile Include="KRPCService.cs" />
     <Compile Include="KService.cs" />
+    <Compile Include="PartInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -120,6 +120,9 @@
     <Content Include="www\static\css\bootstrap.min.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="www\static\css\jquery-ui.min.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="www\static\css\starter-template.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -129,13 +132,13 @@
     <Content Include="www\static\horizon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="www\static\js\bootstrap.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="www\static\js\bootstrap.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="www\static\js\jquery-2.0.3.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="www\static\js\jquery-ui.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="www\static\js\jsonproxy.js">

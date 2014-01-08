@@ -1,12 +1,74 @@
 ﻿<div class="center">
+    <script type="text/javascript" src="/static/js/jquery-ui.min.js"></script>
+    <style>
+        .xxvslider {
+            margin: 1cm;
+        }
+    </style>
+    <table>
+    <tr>
+        <td style="vertical-align:top">
+            <div class="xxvslider ui-slider-vertical" id="throttle"></div>
+            <span id="throttle_pct"></span>%
+        </td>
+        <td style="vertical-align:middle">
+            <button id="gearbtn" class="btn btn-lg">Gear</button>
+            <br />
+            <br />
+            <br />
+            <button id="stagebtn" class="btn btn-lg btn-warning">Next Stage</button>
+        </td>
+        <td style="vertical-align:top">
+            <div class="xxvslider ui-slider-vertical" id="trim"></div>
+            <span id="trimvalue"></span>
+        </td>
+    </tr>
 
-    <p>
-        <button id="gearbtn" class="btn btn-lg">Gear</button>
-    </p>
+    </table>
     <br />
     
     <script type="text/javascript">
         var gsproxy = getRPC();
+        var updating_slider = false;
+        function setThrottle(pct) {
+            gsproxy.SetThrottle(pct);
+        }
+
+        $("#throttle").slider({
+            orientation: "vertical", max: 100, min: 0, step: 1, value: 0,
+            start: function (evt, ui ) {
+                updating_slider = true;
+            },
+            slide: function (evt, ui) {
+                $("#throttle_pct").text(ui.value);
+                gsproxy.SetThrottle(ui.value / 100.0);
+            },
+            stop: function (evt, ui) {
+                updating_slider = false;
+            }
+        });
+        $("#trim").slider({
+            orientation: "vertical", max: 100, min: 0, step: 1, value: 50,
+            start: function (evt, ui) {
+                updating_slider = true;
+            },
+            slide: function (evt, ui) {
+                var tv = (ui.value - 50) / 10.0;
+                $("#trimvalue").text(Math.round(tv));
+                gsproxy.SetTrim(tv);
+            },
+            stop: function (evt, ui) {
+                updating_slider = false;
+            }
+        });
+
+        $("#gearbtn").click(function () {
+            gsproxy.ToggleGear();
+        });
+
+        $("#stagebtn").click(function () {
+            gsproxy.ToggleStage();
+        });
 
         function updatestates(gsproxy) {
 
@@ -20,6 +82,15 @@
                 $("#gearbtn").removeClass("btn-success");
                 $("#gearbtn").addClass("btn-danger");
             }
+            if (!updating_slider) {
+                var dt = (Math.round(data.Throttle * 100));
+                updating_slider = true;
+                $("#throttle").slider("value", dt);
+                updating_slider = false;
+                
+                $("#throttle_pct").text(dt);
+            }
+            
         }
         gsproxy.func = updatestates;
         updatestates(gsproxy);
