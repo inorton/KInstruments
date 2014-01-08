@@ -4,3 +4,6 @@
 [submodule "lib/xr-include"]
 	path = lib/xr-include
 	url = git@github.com:inorton/xr-include.git
+[submodule "lib/jsonfx"]
+	path = lib/jsonfx
+	url = git@github.com:inorton/jsonfx.git
