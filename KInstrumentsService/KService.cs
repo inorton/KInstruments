@@ -66,8 +66,7 @@ namespace KInstrumentsService
             jsonrpc.AddHandlers((IKRPCService)Service);
             Service.Service = this;
 
-            WebServer.Port = port;
-
+            WebServer.Port = port;            
             WebServer.UriRequested += WebServer_UriRequested;
             WebServer.UriRequested += WebServer_Json;
             WebServer.UriRequested += WebServer_FileServer;

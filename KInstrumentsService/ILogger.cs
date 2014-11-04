@@ -13,7 +13,7 @@ namespace KInstrumentsService
         {
             try
             {
-                UnityEngine.MonoBehaviour.print(string.Format(fmt, args) + "\n");
+                UnityEngine.MonoBehaviour.print("kinstruments: " + string.Format(fmt, args) + "\n");
             }
             catch { }
         }

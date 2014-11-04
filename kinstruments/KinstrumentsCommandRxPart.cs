@@ -23,6 +23,7 @@ namespace kinstruments
             if (httpd == null)
             {
                 httpd = KinstrumentsWebserver.GetInstance();
+                httpd.Service.Log.Print("KinstrumentsCommandRxPart OnStart()");
             }
             base.OnStart(state);        
         }
