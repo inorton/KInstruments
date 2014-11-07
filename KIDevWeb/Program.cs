@@ -94,28 +94,32 @@ namespace KIDevWeb
                 d.GearDown = s.Service.ControlInput.GearDown;
                 d.VesselName = "Test Vessel";
                 k = Console.ReadKey(true).KeyChar.ToString();
-                if (k == "q")
-                {
-                    d.Roll -= 2;
-                }
-                if (k == "e")
-                {
-                    d.Roll += 2;
-                }
 
-                if (k == "w")
+                switch (k)
                 {
-                    d.Pitch -= 4;
-                    d.Altitude -= 100;
-                }
+                    case "q":
+                        d.Roll -= 2;
+                        break;
+                    case "e":
+                        d.Roll += 2;
+                        break;
+                    case "w":
+                        d.Pitch -= 4;
+                        d.Altitude -= 100;
+                        break;
+                    case "s":
+                        d.Pitch += 4;
+                        d.Altitude += 100;
+                        break;
 
-                if (k == "s")
-                {
-                    d.Pitch += 4;
-                    d.Altitude += 100;
-                }
+                    case "z":
+                        d.SurfaceVelocity -= 12;
+                        break;
 
-                Console.Error.WriteLine("p={0} r={1}", d.Pitch, d.Roll);
+                    case "x":
+                        d.SurfaceVelocity += 24;
+                        break;
+                }
 
             } while (true);
         }

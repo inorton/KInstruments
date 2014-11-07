@@ -1,0 +1,99 @@
+﻿<script type="text/javascript">
+
+    function updateGaugeHand(paper, ele) {
+        rid = ele.attr('data-kinstruments-rid');
+        value = ele.attr('data-kinstruments-value');
+        max = ele.attr('data-kinstruments-max');
+
+        remainder = value % max;
+        deg = String((value / max) * 360);
+        hand = paper.getById(rid);
+        anim = Raphael.animation({ transform: 'r' + deg + ',150,150' }, 200, 'linear');
+        hand.animate(anim);
+    }
+
+    function updateGauge(paper) {
+        $('.hand').each(function () {
+            updateGaugeHand(paper, $(this));
+        });
+    }
+
+    // Raphael gauge creation function
+    function gauge(paper, ticks, hands, tickmulti, subticks) {
+        var circle = paper.circle(GAUGE_CENTER, GAUGE_CENTER, GAUGE_SIZE);
+        circle.attr({ fill: '#000', stroke: '#aaa', 'stroke-width': 2 });
+
+        if (subticks > 0) {
+            for (i = 0; i < (ticks * subticks) ; i++) {
+                var start_x = findCirclePoint(GAUGE_CENTER, GAUGE_SIZE - 12, i, ticks * subticks, true);
+                var start_y = findCirclePoint(GAUGE_CENTER, GAUGE_SIZE - 12, i, ticks * subticks, false);
+                var end_x = findCirclePoint(GAUGE_CENTER, GAUGE_SIZE - 8, i, ticks * subticks, true);
+                var end_y = findCirclePoint(GAUGE_CENTER, GAUGE_SIZE - 8, i, ticks * subticks, false);
+                xtick = paper.path("M" + start_x + "," + start_y + "L" + end_x + "," + end_y);
+                xtick.attr({ stroke: '#ddd', 'stroke-width': 1 });
+            }
+        }
+
+        for (i = 0; i < ticks; i++) {
+            var start_x = findCirclePoint(GAUGE_CENTER, GAUGE_SIZE - 20, i, ticks, true);
+            var start_y = findCirclePoint(GAUGE_CENTER, GAUGE_SIZE - 20, i, ticks, false);
+            var end_x = findCirclePoint(GAUGE_CENTER, GAUGE_SIZE - 8, i, ticks, true);
+            var end_y = findCirclePoint(GAUGE_CENTER, GAUGE_SIZE - 8, i, ticks, false);
+            vtick = paper.path("M" + start_x + "," + start_y + "L" + end_x + "," + end_y);
+            vtick.attr({ stroke: '#ddd', 'stroke-width': 2 });
+
+            label_x = findCirclePoint(GAUGE_CENTER, GAUGE_SIZE - 35, i, ticks, true);
+            label_y = findCirclePoint(GAUGE_CENTER, GAUGE_SIZE - 35, i, ticks, false);
+            label = paper.text(label_x, label_y, i * tickmulti);
+            label.attr({ fill: '#fff', 'font-size': '18' });
+        }
+    
+
+        if (hands > 0) {
+            var minute = paper.path('M150,170v-' + String(GAUGE_SIZE - 20));
+            minute.attr({ stroke: '#eee', 'stroke-width': 5 });
+            node = minute.node;
+            node.setAttribute('class', 'hand minute');
+            node.setAttribute('data-kinstruments-rid', minute.id);
+            node.setAttribute('data-kinstruments-value', 0);
+            node.setAttribute('data-kinstruments-max', 10000);
+        }
+
+        if (hands > 1) {
+            var second = paper.path('M150,175v-' + String(GAUGE_SIZE + 15));
+            second.attr({ stroke: 'red', 'stroke-width': 3 });
+            var node = second.node;
+            node.setAttribute('class', 'hand second');
+            node.setAttribute('data-kinstruments-rid', second.id);
+            node.setAttribute('data-kinstruments-value', 0);
+            node.setAttribute('data-kinstruments-max', 1000);
+        }
+
+        if (hands > 2) {
+            var hour = paper.path('M150,165v-' + String(GAUGE_SIZE - 60));
+            hour.attr({ stroke: '#ccc', 'stroke-width': 7 });
+            node = hour.node;
+            node.setAttribute('class', 'hand hour');
+            node.setAttribute('data-kinstruments-rid', hour.id);
+            node.setAttribute('data-kinstruments-value', 0);
+            node.setAttribute('data-kinstruments-max', 100000);
+        }
+    }
+
+    function findCirclePoint(center, radius, currentVal, maxVal, sin) {
+        deg = (currentVal / maxVal) * 360;
+        var point;
+        if (sin == true) {
+            point = center + Math.round(radius * Math.sin(deg * Math.PI / 180));
+        } else {
+            point = center - Math.round(radius * Math.cos(deg * Math.PI / 180));
+        }
+        return point;
+    }
+
+    function animateGauge(center, radius, futureVal, maxVal) {
+        var xFuture = findCirclePoint(center, radius, futureVal, maxVal, true);
+        var yFuture = findCirclePoint(center, radius, futureVal, maxVal, false);
+        var finalPathStr = 'M' + center + "," + center + "L" + xFuture + "," + yFuture;
+    }
+</script>

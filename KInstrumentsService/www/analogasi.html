@@ -3,7 +3,7 @@
     <script type="text/javascript" src="/static/js/raphael-min.js"></script>
     <div id="graph" class="gauge"></div>
     <br />
-    <font size="+6"><span id="analogalt">0</span>m  <!--<span id="rate">0</span>--></font>
+    
     <% xr-include src="/analog_dial.html" %>
     <script type="text/javascript">
         PAPER_SIZE = 300;
@@ -14,11 +14,20 @@
         var graph = document.getElementById("graph");
 
         var dial = null;
+        var digital_asi = null;
 
         $('#graph').each(function () {
             var paper = Raphael(this, PAPER_SIZE, PAPER_SIZE);
+
             // paper, ticks, hands, tick mul, subticks
-            gauge(paper, 10, 3, 1, 0);
+            gauge(paper, 10, 1, 100, 10);
+
+            paper.text(GAUGE_CENTER, GAUGE_SIZE * 0.5, "Airspeed").attr({ fill: '#aaa', 'font-size': '14' });
+            paper.text(GAUGE_CENTER, GAUGE_SIZE * 1.5, "KNOTS").attr({ fill: '#bbb', 'font-size': '16' });
+
+            digital_asi = paper.text(GAUGE_CENTER, GAUGE_SIZE * 1.35, "");
+            digital_asi.attr({ fill: '#eee', 'font-size': '18' });
+
             dial = paper;
         });
 
@@ -28,25 +37,10 @@
 
             setTimeout(function () { run(p) }, 200);
 
-            var alt = x.Altitude;
-            $('.gauge .hand').attr('data-kinstruments-value', alt);
-
+            var vel = (x.SurfaceVelocity * 1.94384449); // m/s -> kts
+            $('.gauge .hand').attr('data-kinstruments-value', vel * 10);
+            digital_asi.attr({ text: Math.floor(vel) });
             updateGauge(dial);
-
-            var unit = "";
-
-            if (alt > 1000000000) {
-                alt = alt / 1000000;
-                unit = "M";
-            } else {
-                if (alt > 1000000) {
-                    alt = alt / 1000;
-                    unit = "k";
-                }
-            }
-
-            $("#analogalt").text(Math.floor(alt) + unit);
-            //$("#rate").text(clrate());
         }
 
         run(proxy);

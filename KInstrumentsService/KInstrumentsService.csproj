@@ -75,6 +75,12 @@
     <Content Include="www\analogalt.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="www\analog_dial.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="www\analogasi.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="www\gear_stage.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -106,6 +112,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="www\static\bezel.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="www\clean_header.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="www\static\css\bootstrap-theme.css">
